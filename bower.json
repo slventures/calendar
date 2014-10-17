@@ -13,6 +13,7 @@
   "dependencies": {
     "jquery": "~1.11.1",
     "underscore": "~1.7.0",
-    "moment": "~2.8.3"
+    "moment": "~2.8.3",
+    "jsTimezoneDetect": "~1.0.6"
   }
 }
