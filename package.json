@@ -1,7 +1,7 @@
 {
-  "name": "bootstrap-calendar",
-  "version": "0.2.4",
-  "description": "Bootstrap full view calendar",
+  "name": "calendar",
+  "version": "0.0.1",
+  "description": "Full view calendar",
   "main": [
     "./js/calendar.js"
   ],
@@ -10,12 +10,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Serhioromano/bootstrap-calendar.git"
+    "url": "https://github.com/slventures/calendar.git"
   },
   "keywords": [
     "calendar"
   ],
-  "author": "Sergey Romanov",
+  "author": "Adam Jorgensen",
   "license": "BSD",
   "readmeFilename": "README.md",
   "gitHead": "fc46075a07e08b1796f959c6562d851acce00751",

@@ -1,6 +1,6 @@
 {
-  "name": "bootstrap-calendar",
-  "version": "0.2.4",
+  "name": "calendar",
+  "version": "0.0.1",
   "main": [
     "./js/calendar.js",
     "./css/calendar.css"
@@ -11,9 +11,8 @@
     "components"
   ],
   "dependencies": {
-    "jquery": "~1.10.2",
-    "bootstrap": "~2.3.1",
-    "underscore": "~1.4.4",
-    "moment": "~2.0.0"
+    "jquery": "~1.11.1",
+    "underscore": "~1.7.0",
+    "moment": "~2.8.3"
   }
 }
