@@ -8,33 +8,34 @@
     "use strict";
 
     //TODO: Remove these monkeypatches
-    Date.prototype.getWeek = function () {
-        var onejan = new Date(this.getFullYear(), 0, 1);
-        return Math.ceil((((this.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
-    };
-    Date.prototype.getMonthFormatted = function () {
-        var month = this.getMonth() + 1;
-        return month < 10 ? '0' + month : month;
-    };
-    Date.prototype.getDateFormatted = function () {
-        var date = this.getDate();
-        return date < 10 ? '0' + date : date;
-    };
-    if (!String.prototype.format) {
-        String.prototype.format = function () {
-            var args = arguments;
-            return this.replace(/{(\d+)}/g, function (match, number) {
-                return typeof args[number] != 'undefined' ? args[number] : match;
-            });
-        };
+    function getWeek(date) {
+        var onejan = new Date(date.getFullYear(), 0, 1);
+        return Math.ceil((((date.getTime() - onejan.getTime()) / 86400000) + onejan.getDay() + 1) / 7);
     }
-    if (!String.prototype.formatNum) {
-        String.prototype.formatNum = function (decimal) {
-            var r = "" + this;
-            while (r.length < decimal)
-                r = "0" + r;
-            return r;
-        };
+
+    function getMonthFormatted(date) {
+        var month = date.getMonth() + 1;
+        return month < 10 ? '0' + month : month;
+    }
+
+    function getDateFormatted(date) {
+        var date = date.getDate();
+        return date < 10 ? '0' + date : date;
+    }
+
+    function format(string) {
+        var args = $.makeArray(arguments).slice(1);
+        return string.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined' ? args[number] : match;
+        });
+    }
+
+    function formatNum(string, decimal) {
+        var decimal = decimal || 2,
+            r = "" + string;
+        while (r.length < decimal)
+            r = "0" + r;
+        return r;
     }
 
     function factory ($, pluginCreator) {
@@ -453,8 +454,8 @@
                         var s = new Date(parseInt(e.start));
                         var f = new Date(parseInt(e.end));
 
-                        e.start_hour = s.getHours().toString().formatNum(2) + ':' + s.getMinutes().toString().formatNum(2);
-                        e.end_hour = f.getHours().toString().formatNum(2) + ':' + f.getMinutes().toString().formatNum(2);
+                        e.start_hour = formatNum(s.getHours().toString()) + ':' + formatNum(s.getMinutes().toString());
+                        e.end_hour = formatNum(f.getHours().toString()) + ':' + formatNum(f.getMinutes().toString());
 
                         if (e.start < start.getTime()) {
                             warn(1);
@@ -519,7 +520,7 @@
                     var h = "" + (parseInt(time_start[0]) + hour * Math.max(time_split / 60, 1));
                     var m = "" + (time_split * part + ((hour == 0) ? parseInt(time_start[1]) : 0));
 
-                    return h.formatNum(2) + ":" + m.formatNum(2);
+                    return formatNum(h) + ":" + formatNum(m);
                 },
                 _week: function (event) {
                     this._loadTemplate('week-days');
@@ -618,7 +619,7 @@
                         t.tooltip = holiday;
                     }
 
-                    t.data_day = curdate.getFullYear() + '-' + curdate.getMonthFormatted() + '-' + (day < 10 ? '0' + day : day);
+                    t.data_day = curdate.getFullYear() + '-' + getMonthFormatted(curdate) + '-' + (day < 10 ? '0' + day : day);
                     t.cls = cls;
                     t.day = day;
 
@@ -729,9 +730,9 @@
                         to.start.setTime(new Date().getTime());
                     }
                     else {
-                        $.error(this.locale.error_where.format(where))
+                        $.error(format(this.locale.error_where, where));
                     }
-                    this.options.day = to.start.getFullYear() + '-' + to.start.getMonthFormatted() + '-' + to.start.getDateFormatted();
+                    this.options.day = to.start.getFullYear() + '-' + getMonthFormatted(to.start) + '-' + getDateFormatted(to.start);
                     this.view();
                     if (_.isFunction(next)) {
                         next();
@@ -752,7 +753,7 @@
                         day = parseInt(list[2], 10);
                     }
                     else {
-                        $.error(this.locale.error_dateformat.format(this.options.day));
+                        $.error(format(this.locale.error_dateformat, this.options.day));
                     }
 
                     switch (this.options.view) {
@@ -781,7 +782,7 @@
                             this.options.position.end.setTime(new Date(year, month, first + 7).getTime());
                             break;
                         default:
-                            $.error(this.locale.error_noview.format(this.options.view))
+                            $.error(format(this.locale.error_noview, this.options.view));
                     }
                     return this;
                 },
@@ -789,16 +790,16 @@
                     var p = this.options.position.start;
                     switch (this.options.view) {
                         case 'year':
-                            return this.locale.title_year.format(p.getFullYear());
+                            return format(this.locale.title_year, p.getFullYear());
                             break;
                         case 'month':
-                            return this.locale.title_month.format(this.locale['m' + p.getMonth()], p.getFullYear());
+                            return format(this.locale.title_month, this.locale['m' + p.getMonth()], p.getFullYear());
                             break;
                         case 'week':
-                            return this.locale.title_week.format(p.getWeek(), p.getFullYear());
+                            return format(this.locale.title_week, getWeek(p), p.getFullYear());
                             break;
                         case 'day':
-                            return this.locale.title_day.format(this.locale['d' + p.getDay()], p.getDate(), this.locale['m' + p.getMonth()], p.getFullYear());
+                            return format(this.locale.title_day, this.locale['d' + p.getDay()], p.getDate(), this.locale['m' + p.getMonth()], p.getFullYear());
                             break;
                     }
                     return;
@@ -934,7 +935,7 @@
                     var self = this;
 
                     var week = $(document.createElement('div')).attr('id', 'cal-week-box');
-                    var start = this.options.position.start.getFullYear() + '-' + this.options.position.start.getMonthFormatted() + '-';
+                    var start = this.options.position.start.getFullYear() + '-' + getMonthFormatted(this.options.position.start) + '-';
                     $('.cal-month-box .cal-row-fluid')
                         .on('mouseenter', function () {
                             var p = new Date(self.options.position.start);
@@ -942,7 +943,7 @@
                             var day = (child.hasClass('cal-month-first-row') ? 1 : $('[data-cal-date]', child).text());
                             p.setDate(parseInt(day));
                             day = (day < 10 ? '0' + day : day);
-                            week.html(self.locale.week.format(p.getWeek()));
+                            week.html(format(self.locale.week, getWeek(p)));
                             week.attr('data-cal-week', start + day).show().appendTo(child);
                         })
                         .on('mouseleave', function () {
