@@ -82,12 +82,6 @@
                     today: 'cal-day-today'
                 }
             },
-            // ID of the element of modal window. If set, events URLs will be opened in modal windows.
-            modal: null,
-            //	modal handling setting, one of "iframe", "ajax" or "template"
-            modal_type: "iframe",
-            //	function to set modal title, will be passed the event as a parameter
-            modal_title: null,
             views: {
                 year: {
                     slide_events: 1,
@@ -359,7 +353,7 @@
 
         function warn(message) {
             if ($.type(window.console) == 'object' && $.type(window.console.warn) == 'function') {
-                window.console.warn('[Bootstrap-Calendar] ' + message);
+                window.console.warn('[Calendar] ' + message);
             }
         }
 
@@ -377,9 +371,6 @@
                     $.extend(this.options, object);
                     if ('language' in object) {
                         this.setLanguage(object.language);
-                    }
-                    if ('modal' in object) {
-                        this._update_modal();
                     }
                 },
                 setLanguage: function (lang) {
@@ -928,89 +919,6 @@
 
                     this['_update_' + this.options.view]();
 
-                    this._update_modal();
-
-                },
-                _update_modal: function () {
-                    var self = this;
-
-                    $('a[data-event-id]', this.context).unbind('click');
-
-                    if (!self.options.modal) {
-                        return;
-                    }
-
-                    var modal = $(self.options.modal);
-
-                    if (!modal.length) {
-                        return;
-                    }
-
-                    var ifrm = null;
-                    if (self.options.modal_type == "iframe") {
-                        ifrm = $(document.createElement("iframe"))
-                            .attr({
-                                width: "100%",
-                                frameborder: "0"
-                            });
-                    }
-
-
-                    $('a[data-event-id]', this.context).on('click', function (event) {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        var url = $(this).attr('href');
-                        var id = $(this).data("event-id");
-                        var event = _.find(self.options.events, function (event) {
-                            return event.id == id
-                        });
-
-                        if (self.options.modal_type == "iframe") {
-                            ifrm.attr('src', url);
-                            $('.modal-body', modal).html(ifrm);
-                        }
-
-                        if (!modal.data('handled.bootstrap-calendar') || (modal.data('handled.bootstrap-calendar') && modal.data('handled.event-id') != event.id)) {
-                            modal.off('show.bs.modal')
-                                .off('shown.bs.modal')
-                                .off('hidden.bs.modal')
-                                .on('show.bs.modal', function () {
-                                    var modal_body = $(this).find('.modal-body');
-                                    switch (self.options.modal_type) {
-                                        case "iframe" :
-                                            var height = modal_body.height() - parseInt(modal_body.css('padding-top'), 10) - parseInt(modal_body.css('padding-bottom'), 10);
-                                            $(this).find('iframe').height(Math.max(height, 50));
-                                            break;
-
-                                        case "ajax":
-                                            $.ajax({url: url, dataType: "html", async: false, success: function (data) {
-                                                modal_body.html(data);
-                                            }});
-                                            break;
-
-                                        case "template":
-                                            self._loadTemplate("modal");
-                                            //	also serve calendar instance to underscore template to be able to access current language strings
-                                            modal_body.html(self.options.templates["modal"]({"event": event, "calendar": self}))
-                                            break;
-                                    }
-
-                                    //	set the title of the bootstrap modal
-                                    if (_.isFunction(self.options.modal_title)) {
-                                        modal.find("h3").html(self.options.modal_title(event));
-                                    }
-                                })
-                                .on('shown.bs.modal', function () {
-                                    self.options.onAfterModalShown.call(self, self.options.events);
-                                })
-                                .on('hidden.bs.modal', function () {
-                                    self.options.onAfterModalHidden.call(self, self.options.events);
-                                })
-                                .data('handled.bootstrap-calendar', true).data('handled.event-id', event.id);
-                        }
-                        modal.modal('show');
-                    });
                 },
                 _update_day: function () {
                     $('#cal-day-panel').height($('#cal-day-panel-hour').height());
@@ -1131,18 +1039,6 @@
                     });
                 });
             });
-
-
-            // Wait 400ms before updating the modal & attach the mouseenter&mouseleave(400ms is the time for the slider to fade out and slide up)
-            setTimeout(function () {
-                $('a.event-item').mouseenter(function () {
-                    $('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
-                });
-                $('a.event-item').mouseleave(function () {
-                    $('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
-                });
-                self._update_modal();
-            }, 400);
         }
 
         function getEasterDate(year, offsetDays) {
