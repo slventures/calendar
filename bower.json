@@ -1,6 +1,6 @@
 {
   "name": "calendar",
-  "version": "0.0.1-0.2.4",
+  "version": "0.0.2-0.2.4",
   "main": [
     "./js/calendar.js"
   ],
