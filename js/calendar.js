@@ -302,7 +302,7 @@
                                 date = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7 * offset);
                                 break;
                             case '-':
-                                var d = new Date(year, month + 1, 0 + 7);
+                                var d = new Date(year, month + 1, 7);
                                 while (d.getDay() != weekday) {
                                     d = new Date(d.getFullYear(), d.getMonth(), d.getDate() - 1);
                                 }
@@ -358,16 +358,13 @@
             }
         }
 
-        var constructor = function() {
-                this.options = $.extend(true, {position: {start: new Date(), end: new Date()}}, this.options);
-                this.setLanguage(this.options.language);
-
-                context.css('width', this.options.width).addClass('cal-context');
-
-                this.view();
-                return this;
-            },
-            members = {
+        var members = {
+                init: function() {
+                    this.options.position = $.extend(true, {}, {start: new Date(), end: new Date()}, this.options.position || {});
+                    this.setLanguage(this.options.language);
+                    this.context.css('width', this.options.width).addClass('cal-context');
+                    this.view();
+                },
                 setOptions: function (object) {
                     $.extend(this.options, object);
                     if ('language' in object) {
@@ -802,7 +799,6 @@
                             return format(this.locale.title_day, this.locale['d' + p.getDay()], p.getDate(), this.locale['m' + p.getMonth()], p.getFullYear());
                             break;
                     }
-                    return;
                 },
                 isToday: function () {
                     var now = new Date().getTime();
@@ -956,12 +952,13 @@
                         self.view('week');
                     });
 
-                    $('a.event').mouseenter(function () {
-                        $('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
-                    });
-                    $('a.event').mouseleave(function () {
-                        $('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
-                    });
+                    $('a.event')
+                        .mouseenter(function () {
+                            $('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
+                        })
+                        .mouseleave(function () {
+                            $('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
+                        });
                 },
                 _update_month_year: function () {
                     if (!this.options.views[this.options.view].slide_events) {
@@ -1055,13 +1052,13 @@
             var k = c % 4;
             var l = (32 + 2 * e + 2 * i - h - k) % 7;
             var m = Math.floor((a + 11 * h + 22 * l) / 451);
-            var n0 = (h + l + 7 * m + 114)
+            var n0 = (h + l + 7 * m + 114);
             var n = Math.floor(n0 / 31) - 1;
             var p = n0 % 31 + 1;
             return new Date(year, n, p + (offsetDays ? offsetDays : 0), 0, 0, 0);
         }
 
-        pluginCreator.addPlugin("calendar", constructor, defaults, members);
+        pluginCreator.addPlugin("calendar", defaults, members);
     }
 
     if (typeof define === "function" && define.amd) {
