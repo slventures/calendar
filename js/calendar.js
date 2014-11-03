@@ -420,7 +420,7 @@
                     this._update();
                 },
                 _calculate_hour_minutes: function (data) {
-                    var $self = this;
+                    var self = this;
                     var time_split = parseInt(this.options.time_split);
                     var time_split_count = 60 / time_split;
                     var time_split_hour = Math.min(time_split_count, 1);
@@ -456,12 +456,12 @@
 
                         if (e.start < start.getTime()) {
                             warn(1);
-                            e.start_hour = s.getDate() + ' ' + $self.locale['ms' + s.getMonth()] + ' ' + e.start_hour;
+                            e.start_hour = s.getDate() + ' ' + self.locale['ms' + s.getMonth()] + ' ' + e.start_hour;
                         }
 
                         if (e.end > end.getTime()) {
                             warn(1);
-                            e.end_hour = f.getDate() + ' ' + $self.locale['ms' + f.getMonth()] + ' ' + e.end_hour;
+                            e.end_hour = f.getDate() + ' ' + self.locale['ms' + f.getMonth()] + ' ' + e.end_hour;
                         }
 
                         if (e.start < start.getTime() && e.end > end.getTime()) {
@@ -901,14 +901,15 @@
                 _update: function () {
                     var self = this;
 
-                    $('*[data-toggle="tooltip"]').tooltip({container: 'body'});
+                    self.context.find('*[data-toggle="tooltip"]').tooltip({container: 'body'});
 
-                    $('*[data-cal-date]').click(function () {
+                    self.context.find('*[data-cal-date]').click(function () {
                         var view = $(this).data('cal-view');
                         self.options.day = $(this).data('cal-date');
                         self.view(view);
                     });
-                    $('.cal-cell').dblclick(function () {
+
+                    self.context.find('.cal-cell').dblclick(function () {
                         var view = $('[data-cal-date]', this).data('cal-view');
                         self.options.day = $('[data-cal-date]', this).data('cal-date');
                         self.view(view);
@@ -918,7 +919,7 @@
 
                 },
                 _update_day: function () {
-                    $('#cal-day-panel').height($('#cal-day-panel-hour').height());
+                    this.context.find('.cal-day-panel').height(this.context.find('.cal-day-panel-hour').height());
                 },
                 _update_week: function () {
                 },
@@ -932,10 +933,10 @@
 
                     var week = $(document.createElement('div')).attr('id', 'cal-week-box');
                     var start = this.options.position.start.getFullYear() + '-' + getMonthFormatted(this.options.position.start) + '-';
-                    $('.cal-month-box .cal-row-fluid')
+                    self.context.find('.cal-month-box .cal-before-eventlist')
                         .on('mouseenter', function () {
                             var p = new Date(self.options.position.start);
-                            var child = $('.cal-cell1:first-child .cal-month-day', this);
+                            var child = $('.cal-cell:first-child .cal-month-day', this);
                             var day = (child.hasClass('cal-month-first-row') ? 1 : $('[data-cal-date]', child).text());
                             p.setDate(parseInt(day));
                             day = (day < 10 ? '0' + day : day);
@@ -954,10 +955,10 @@
 
                     $('a.event')
                         .mouseenter(function () {
-                            $('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell1').addClass('day-highlight dh-' + $(this).data('event-class'));
+                            self.context.find('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell').addClass('day-highlight dh-' + $(this).data('event-class'));
                         })
                         .mouseleave(function () {
-                            $('div.cal-cell1').removeClass('day-highlight dh-' + $(this).data('event-class'));
+                            self.context.find('div.cal-cell').removeClass('day-highlight dh-' + $(this).data('event-class'));
                         });
                 },
                 _update_month_year: function () {
@@ -968,7 +969,7 @@
                     var activecell = 0;
                     var downbox = $(document.createElement('div')).attr('id', 'cal-day-tick').html('<i class="icon-chevron-down glyphicon glyphicon-chevron-down"></i>');
 
-                    $('.cal-month-day, .cal-year-box .span3')
+                    self.context.find('.cal-month-day, .cal-year-box .cal-cell')
                         .on('mouseenter', function () {
                             if ($('.events-list', this).length == 0) return;
                             if ($(this).children('[data-cal-date]').text() == self.activecell) return;
@@ -1028,8 +1029,8 @@
                     events: self.getEventsBetween(parseInt(event_list.data('cal-start')), parseInt(event_list.data('cal-end')))
                 }));
                 row.after(slider);
-                self.activecell = $('[data-cal-date]', cell).text();
-                $('#cal-slide-tick').addClass('tick' + tick_position).show();
+                self.activecell = self.context.find('[data-cal-date]', cell).text();
+                self.context.find('.cal-slide-tick').addClass('tick' + tick_position).show();
                 slider.slideDown('fast', function () {
                     $('body').one('click', function () {
                         slider.slideUp('fast');
