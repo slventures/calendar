@@ -901,8 +901,6 @@
                 _update: function () {
                     var self = this;
 
-                    self.context.find('*[data-toggle="tooltip"]').tooltip({container: 'body'});
-
                     self.context.find('*[data-cal-date]').click(function () {
                         var view = $(this).data('cal-view');
                         self.options.day = $(this).data('cal-date');
