@@ -38,7 +38,7 @@
         return r;
     }
 
-    function factory ($, pluginCreator) {
+    function factory ($, pluginCreator, _) {
 
         var defaults = {
             // Width of the calendar
@@ -1061,9 +1061,9 @@
     }
 
     if (typeof define === "function" && define.amd) {
-        define(["jquery", "jquery.plugincreator"], factory);
+        define(["jquery", "jquery.plugincreator", "underscore"], factory);
     } else if (typeof jQuery !== "undefined" && typeof jQuery.addPlugin !== "undefined") {
-        factory(jQuery, jQuery);
+        factory(jQuery, jQuery, _);
     } else {
         throw "jQuery not defined";
     }
