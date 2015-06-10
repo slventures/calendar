@@ -38,7 +38,7 @@
         return r;
     }
 
-    function factory ($, pluginCreator, isFunction, template) {
+    function factory ($, pluginCreator, isFunction, template, each) {
 
         var defaults = {
             // Width of the calendar
@@ -895,7 +895,11 @@
                         async: false,
                         cache: this.options.tmpl_cache
                     }).done(function (html) {
-                        self.options.templates[name] = template(html);
+                        self.options.templates[name] = template(html, {
+                            imports: {
+                                each: each
+                            }
+                        });
                     });
                 },
                 _update: function () {
@@ -1061,7 +1065,7 @@
     }
 
     if (typeof define === "function" && define.amd) {
-        define(["jquery", "jquery.plugincreator", "lodash/lang/isFunction", "lodash/string/template"], factory);
+        define(["jquery", "jquery.plugincreator", "lodash/lang/isFunction", "lodash/string/template", "lodash/collection/each"], factory);
     } else if (typeof jQuery !== "undefined" && typeof jQuery.addPlugin !== "undefined") {
         factory(jQuery, jQuery, _);
     } else {
