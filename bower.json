@@ -12,7 +12,7 @@
   "dependencies": {
     "jquery": "~1.11.1",
     "jquery-plugincreator": ">=0.1.0",
-    "underscore": "~1.7.0",
+    "lodash": ">=3.9.3-amd",
     "moment": "~2.8.3",
     "jsTimezoneDetect": "~1.0.6"
   }
