@@ -38,7 +38,7 @@
         return r;
     }
 
-    function factory ($, pluginCreator, _) {
+    function factory ($, pluginCreator, isFunction, template) {
 
         var defaults = {
             // Width of the calendar
@@ -731,7 +731,7 @@
                     }
                     this.options.day = to.start.getFullYear() + '-' + getMonthFormatted(to.start) + '-' + getDateFormatted(to.start);
                     this.view();
-                    if (_.isFunction(next)) {
+                    if (isFunction(next)) {
                         next();
                     }
                 },
@@ -895,7 +895,7 @@
                         async: false,
                         cache: this.options.tmpl_cache
                     }).done(function (html) {
-                        self.options.templates[name] = _.template(html);
+                        self.options.templates[name] = template(html);
                     });
                 },
                 _update: function () {
@@ -1061,7 +1061,7 @@
     }
 
     if (typeof define === "function" && define.amd) {
-        define(["jquery", "jquery.plugincreator", "underscore"], factory);
+        define(["jquery", "jquery.plugincreator", "lodash/lang/isFunction", "lodash/string/template"], factory);
     } else if (typeof jQuery !== "undefined" && typeof jQuery.addPlugin !== "undefined") {
         factory(jQuery, jQuery, _);
     } else {
