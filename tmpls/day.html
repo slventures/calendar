@@ -9,7 +9,7 @@
                 <strong><%= cal.locale.all_day %></strong>
             </div>
 			<div class="cal-day-hours">
-				<% _.each(all_day, function(event){ %>
+				<% each(all_day, function(event){ %>
 					<div class="day-highlight dh-<%= event['class'] %>">
 						<a href="<%= event.url ? event.url : 'javascript:void(0)' %>"
                            data-event-id="<%= event.id %>"
@@ -28,7 +28,7 @@
                 <strong><%= cal.locale.before_time %></strong>
             </div>
 			<div class="cal-day-hours">
-				<% _.each(before_time, function(event){ %>
+				<% each(before_time, function(event){ %>
 					<div class="day-highlight dh-<%= event['class'] %>">
 						<span class="cal-hours"><%= event.end_hour %></span>
 						<a href="<%= event.url ? event.url : 'javascript:void(0)' %>"
@@ -57,7 +57,7 @@
 			<% }; %>
 		</div>
 
-		<% _.each(by_hour, function(event){ %>
+		<% each(by_hour, function(event){ %>
 			<div class="day-event day-highlight dh-<%= event['class'] %>">
 				<span class="cal-hours"><%= event.start_hour %> - <%= event.end_hour %></span>
 				<a href="<%= event.url ? event.url : 'javascript:void(0)' %>"
@@ -74,7 +74,7 @@
             <strong><%= cal.locale.after_time %></strong>
         </div>
 		<div class="cal-day-hours">
-			<% _.each(after_time, function(event){ %>
+			<% each(after_time, function(event){ %>
 			<div class="day-highlight dh-<%= event['class'] %>">
 				<span class="cal-hours"><%= event.start_hour %></span>
 				<a href="<%= event.url ? event.url : 'javascript:void(0)' %>"

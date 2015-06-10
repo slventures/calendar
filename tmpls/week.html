@@ -6,7 +6,7 @@
 	<div class="cal-column"></div>
 	<div class="cal-column"></div>
 	<div class="cal-row-head">
-		<% _.each(days_name, function(name) { %>
+		<% each(days_name, function(name) { %>
 			<div class="cal-cell <%= cal._getDayClass('week', start) %>"
                  data-toggle="tooltip"
                  title="<%= cal._getHolidayName(start) %>">

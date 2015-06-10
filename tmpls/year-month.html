@@ -11,7 +11,7 @@
          class="events-list"
          data-cal-start="<%= start %>"
          data-cal-end="<%= end %>">
-		<% _.each(events, function(event) { %>
+		<% each(events, function(event) { %>
 			<a href="<%= event.url ? event.url : 'javascript:void(0)' %>"
                data-event-id="<%= event.id %>"
                data-event-class="<%= event['class'] %>"
