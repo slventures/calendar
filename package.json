@@ -2,7 +2,7 @@
   "name": "calendar",
   "version": "0.0.5-0.2.4",
   "description": "Full view calendar",
-  "main": "./js/calendar.js",
+  "main": "./js/calendar.es6",
   "scripts": {
     "test": ""
   },
