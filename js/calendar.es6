@@ -6,7 +6,7 @@
  */
 "use strict";
 
-import pluginCreator from "jquery.plugincreator";
+import pluginCreator from "jquery-plugincreator";
 import isFunction from "lodash/lang/isFunction";
 import template from "lodash/string/template";
 import each from "lodash/collection/each";
