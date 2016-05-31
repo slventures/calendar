@@ -4,7 +4,6 @@
  * https://github.com/slventures/calendar
  *
  */
-"use strict";
 
 import pluginCreator from "jquery-plugincreator";
 import isFunction from "lodash/lang/isFunction";
