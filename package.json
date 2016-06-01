@@ -1,5 +1,5 @@
 {
-  "name": "calendar",
+  "name": "@slventures/calendar",
   "version": "0.2.4-0.0.6",
   "description": "Full view calendar",
   "main": "./dist/calendar.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/slventures/calendar.git"
+    "url": "https://github.com/slventures/calendar"
   },
   "keywords": [
     "calendar"
