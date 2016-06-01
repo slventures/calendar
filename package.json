@@ -1,6 +1,6 @@
 {
   "name": "calendar",
-  "version": "0.0.6-0.2.4",
+  "version": "0.2.4-0.0.6",
   "description": "Full view calendar",
   "main": "./dist/calendar.js",
   "scripts": {
