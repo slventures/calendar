@@ -5,11 +5,10 @@ If you want to contribute please follow this instruction.
 3. Navigate to repository directory 
 4. Run
  
-       npm instal -g grunt grunt-cli;
        npm install
 5. Create new `fix` or `feature` branch
-6. Make modifications
+6. Make modifications to `calendar.es6`
 
-   Please do not make magnified version of `calendar.js`
+   Please do not build compiled version of `calendar.js`
 
 8. Pull to github and send Pull Request.
