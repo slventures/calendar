@@ -11,4 +11,4 @@ A Full view calendar based on [Bootstrap-Calendar](http://bootstrap-calendar.azu
 
 ### Usage
 
-See the documentation for the original Bootstrap-Calendar. Usage is similar/indentical.
+See the documentation for the original Bootstrap-Calendar. Usage is similar/identical.
