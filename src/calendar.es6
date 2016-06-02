@@ -5,7 +5,7 @@
  *
  */
 
-import pluginCreator from "jquery-plugincreator";
+import addPlugin from "jquery-plugincreator";
 import isFunction from "lodash/lang/isFunction";
 import template from "lodash/string/template";
 import each from "lodash/collection/each";
@@ -1068,4 +1068,4 @@ function getEasterDate(year, offsetDays) {
     return new Date(year, n, p + (offsetDays ? offsetDays : 0), 0, 0, 0);
 }
 
-pluginCreator.addPlugin("calendar", defaults, members);
+addPlugin("calendar", defaults, members);
