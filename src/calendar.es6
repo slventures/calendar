@@ -6,9 +6,9 @@
  */
 
 import addPlugin from "jquery-plugincreator";
-import isFunction from "lodash/lang/isFunction";
-import template from "lodash/string/template";
-import each from "lodash/collection/each";
+import isFunction from "lodash/isFunction";
+import template from "lodash/template";
+import each from "lodash/each";
 
 //TODO: Remove these monkeypatches
 function getWeek(date) {
