@@ -1068,4 +1068,4 @@ function getEasterDate(year, offsetDays) {
     return new Date(year, n, p + (offsetDays ? offsetDays : 0), 0, 0, 0);
 }
 
-addPlugin("calendar", defaults, members);
+addPlugin("calendar", defaults, members, true);
