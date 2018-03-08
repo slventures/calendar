@@ -19,7 +19,7 @@
   "gitHead": "fc46075a07e08b1796f959c6562d851acce00751",
   "dependencies": {
     "jquery": ">=1.11.1",
-    "jquery-plugincreator": "github:slventures/jquery-plugincreator#50d1819",
+    "jquery-plugincreator": "1.0.1",
     "lodash": ">=3.9.3-amd",
     "moment": "~2.8.3",
     "jstimezonedetect": "~1.0.6"
