@@ -219,9 +219,9 @@ var strings = {
 
 var browser_timezone = '';
 try {
-    if ($.type(window.jstz) == 'object' && $.type(jstz.determine) == 'function') {
+    if (typeof(window.jstz) === 'object' && typeof(jstz.determine) === 'function') {
         browser_timezone = jstz.determine().name();
-        if ($.type(browser_timezone) !== 'string') {
+        if (typeof(browser_timezone) !== 'string') {
             browser_timezone = '';
         }
     }
@@ -354,7 +354,7 @@ function getHolidays(cal, year) {
 getHolidays.cache = {};
 
 function warn(message) {
-    if ($.type(window.console) == 'object' && $.type(window.console.warn) == 'function') {
+    if (typeof (window.console) === 'object' && typeof (window.console.warn) === 'function') {
         window.console.warn('[Calendar] ' + message);
     }
 }
