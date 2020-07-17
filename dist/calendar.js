@@ -1,8 +1,8 @@
 (function (global, factory) {
     if (typeof define === "function" && define.amd) {
-        define(["jquery-plugincreator", "lodash/lang/isFunction", "lodash/string/template", "lodash/collection/each"], factory);
+        define(["jquery-plugincreator", "lodash/isFunction", "lodash/template", "lodash/each"], factory);
     } else if (typeof exports !== "undefined") {
-        factory(require("jquery-plugincreator"), require("lodash/lang/isFunction"), require("lodash/string/template"), require("lodash/collection/each"));
+        factory(require("jquery-plugincreator"), require("lodash/isFunction"), require("lodash/template"), require("lodash/each"));
     } else {
         var mod = {
             exports: {}
@@ -27,14 +27,13 @@
         };
     }
 
-    //TODO: Remove these monkeypatches
-    /**
-     * Calendar full view.
-     *
-     * https://github.com/slventures/calendar
-     *
-     */
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
 
+    //TODO: Remove these monkeypatches
     function getWeek(date) {
         var onejan = new Date(date.getFullYear(), 0, 1);
         return Math.ceil(((date.getTime() - onejan.getTime()) / 86400000 + onejan.getDay() + 1) / 7);
@@ -242,9 +241,9 @@
 
     var browser_timezone = '';
     try {
-        if ($.type(window.jstz) == 'object' && $.type(jstz.determine) == 'function') {
+        if (_typeof(window.jstz) === 'object' && typeof jstz.determine === 'function') {
             browser_timezone = jstz.determine().name();
-            if ($.type(browser_timezone) !== 'string') {
+            if (typeof browser_timezone !== 'string') {
                 browser_timezone = '';
             }
         }
@@ -373,7 +372,7 @@
     getHolidays.cache = {};
 
     function warn(message) {
-        if ($.type(window.console) == 'object' && $.type(window.console.warn) == 'function') {
+        if (_typeof(window.console) === 'object' && typeof window.console.warn === 'function') {
             window.console.warn('[Calendar] ' + message);
         }
     }
@@ -924,13 +923,13 @@
         _update: function _update() {
             var self = this;
 
-            self.context.find('*[data-cal-date]').click(function () {
+            self.context.find('*[data-cal-date]').on('click', function () {
                 var view = $(this).data('cal-view');
                 self.options.day = $(this).data('cal-date');
                 self.view(view);
             });
 
-            self.context.find('.cal-cell').dblclick(function () {
+            self.context.find('.cal-cell').on('dblclick', function () {
                 var view = $('[data-cal-date]', this).data('cal-view');
                 self.options.day = $('[data-cal-date]', this).data('cal-date');
                 self.view(view);
@@ -964,14 +963,14 @@
                 week.hide();
             });
 
-            week.click(function () {
+            week.on('click', function () {
                 self.options.day = $(this).data('cal-week');
                 self.view('week');
             });
 
-            $('a.event').mouseenter(function () {
+            $('a.event').on('mouseenter', function () {
                 self.context.find('a[data-event-id="' + $(this).data('event-id') + '"]').closest('.cal-cell').addClass('day-highlight dh-' + $(this).data('event-class'));
-            }).mouseleave(function () {
+            }).on('mouseleave', function () {
                 self.context.find('div.cal-cell').removeClass('day-highlight dh-' + $(this).data('event-class'));
             });
         },
@@ -996,13 +995,13 @@
             });
 
             var slider = $(document.createElement('div')).attr('id', 'cal-slide-box');
-            slider.hide().click(function (event) {
+            slider.hide().on('click', function (event) {
                 event.stopPropagation();
             });
 
             this._loadTemplate('events-list');
 
-            downbox.click(function (event) {
+            downbox.on('click', function (event) {
                 showEventsList(event, $(this), slider, self);
             });
         },
@@ -1042,7 +1041,7 @@
             self.activecell = self.context.find('[data-cal-date]', cell).text();
             self.context.find('.cal-slide-tick').addClass('tick' + tick_position).show();
             slider.slideDown('fast', function () {
-                $('body').one('click', function () {
+                $('body').on('click', function () {
                     slider.slideUp('fast');
                     self.activecell = 0;
                 });
@@ -1069,5 +1068,5 @@
         return new Date(year, n, p + (offsetDays ? offsetDays : 0), 0, 0, 0);
     }
 
-    _jqueryPlugincreator2.default.addPlugin("calendar", defaults, members);
+    (0, _jqueryPlugincreator2.default)("calendar", defaults, members, true);
 });
